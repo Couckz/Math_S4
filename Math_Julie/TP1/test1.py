@@ -12,14 +12,14 @@ def li_Lagrange(points_x, points_y):
     li = []
     res = 0
     for j in range(len(points_x)):
-        li_num = [1]
-        li_den = [1]
+        li_num = 1
+        li_den = 1
         for i in range(len(points_x)):
             if i != j:
                 print(li_num)
-                li_num[0] = (x-points_x[i])*li_num[0]
-                li_den[0] = (points_x[j]-points_x[i])*li_den[0]
-        li.append(sympify(li_num[0]/li_den[0]))
+                li_num = (x-points_x[i])*li_num
+                li_den = (points_x[j]-points_x[i])*li_den
+        li.append(sympify(li_num/li_den))
         
     for k in range(len(points_y)):
         res += sympify(li[k]*points_y[k])
