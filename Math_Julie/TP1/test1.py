@@ -2,26 +2,27 @@ from random import *
 import numpy as np
 from sympy import *
 
-
-points_x = [1,2,3]
-points_y = [randint(1,100)  for i in range(3)]
+points_x = [0,1,2]
+points_y = [1,3,9]
 print(points_x)
 x = symbols('x')
 
-def polyLagrange(points_x):
+def li_Lagrange(points_x, points_y):
     x = symbols('x')
-    li_num = [1]
-    li_den = [1]
     li = []
+    res = 0
     for j in range(len(points_x)):
+        li_num = [1]
+        li_den = [1]
         for i in range(len(points_x)):
             if i != j:
                 print(li_num)
-                li_num.append(sympify(((x-points_x[i])*np.prod(li_num))))
-                li_den.append(sympify(points_x[j]-points_x[i])*np.prod(li_den))
-            else:
-                li.append(1)
-        li.append(sympify(li_num[j]/li_den[j]))
-    return li
+                li_num[0] = (x-points_x[i])*li_num[0]
+                li_den[0] = (points_x[j]-points_x[i])*li_den[0]
+        li.append(sympify(li_num[0]/li_den[0]))
+        
+    for k in range(len(points_y)):
+        res += sympify(li[k]*points_y[k])
+    return sympify(res)
 
-print(polyLagrange(points_x=points_x))
+print("le résultat est ", li_Lagrange(points_x, points_y))
