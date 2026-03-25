@@ -1,6 +1,6 @@
 from random import *
-import numpy as np
 from sympy import *
+import matplotlib.pyplot as plt
 
 points_x = [0,1,2]
 points_y = [1,3,9]
@@ -23,6 +23,8 @@ def li_Lagrange(points_x, points_y):
         
     for k in range(len(points_y)):
         res += sympify(li[k]*points_y[k])
-    return sympify(res)
+    print(expand(res))
+    plot(res, (x, min(points_x)-1, max(points_x)+1), 0)
+    return sympify(expand(res))
 
 print("le résultat est ", li_Lagrange(points_x, points_y))
