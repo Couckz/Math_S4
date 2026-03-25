@@ -3,7 +3,7 @@ from sympy import *
 import matplotlib.pyplot as plt
 
 points_x = [0,1,2]
-points_y = [1,3,9]
+points_y = [7,13,91]
 print(points_x)
 x = symbols('x')
 
@@ -24,7 +24,8 @@ def li_Lagrange(points_x, points_y):
     for k in range(len(points_y)):
         res += sympify(li[k]*points_y[k])
     print(expand(res))
-    plot(res, (x, min(points_x)-1, max(points_x)+1), 0)
+    pol_choisit = 5*x**4 + x**2 + 7
+    plot((res, (x, min(points_x)-1, max(points_x)+1), "Polynome de lagrange"), (pol_choisit, (x, min(points_x)-1, max(points_x)+1), "Fonction choisie" ), legend=True)
     return sympify(expand(res))
 
 print("le résultat est ", li_Lagrange(points_x, points_y))
