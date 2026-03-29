@@ -1,43 +1,34 @@
-from random import *
-from sympy import *
+import numpy as np
+import matplotlib.pyplot as plt
+import math
 
-#Dans ce code, la fonction choisie pour les test est : f(x) = 5x^4 + x^2 + 7
-
-# Définition de trois points dont les coordonnées (x,y) sont respectivement les valeurs de points_x et points_y
-# On choisit pour l'études des points par lesquels passent la fonction choisie 
-points_x = [0,1,2,3,5] 
-points_y = [7,13,91,421,1303]
-
-
-#Définition de la fonction désirée
-def Poly_Lagrange(points_x, points_y):
-    x = symbols('x') #"Symbols" est une fonction de sympy qui définit la variable utilisée pour les calculs formels, ici x. 
-    li = [] #Définition d'une liste qui contiendra tous les polynômes "li" de Lagrange
-    Polynome_Interpolé = 0 #Définition d'une variable qui contiendra le polynôme interpolé
-    pol_choisit = 5*x**4 + x**2 + 7 #Définition du polynôme choisit
+n = 5 #Nombre de points d'interpolation considéré
+points_x = np.linspace(-1,1,n) #Creation d'un intervalle de points avec le nombre de points considéré
+points_y = [5*i**4 + i**2 + 7 for i in points_x] #Calcul des images de ces points par la fonction choisie
     
-    #Itération sur les indices des points, servant à calculer les "li" de Lagrange
-    for j in range(len(points_x)):
-        li_num = 1 #Définition de la variable qui contiendra le numérateur du li calculé pour le points indicé j
-        li_den = 1 #Définition de la variable qui contiendra le dénumérateur du li calculé pour le points indicé j
-        
-        #Interation une deuxième fois sur les indices des points. 
-        #Essentielle pour éviter l'intervention du terme x-xi dans le calcul du "li" de Lagrange
-        for i in range(len(points_x)): 
-            #Test pour éviter le terme xi-xi dans le calcul des li de Lagrange, d'où l'intervention de la deuxième boucle
-            if i != j:
-                li_num = (x-points_x[i])*li_num # Implémentation du calcul du numérateur pour le li de lagrange pour le point j
-                li_den = (points_x[j]-points_x[i])*li_den # Implémentation du calcul du dénominateur pour le li de lagrange pour le point j
-        li.append(sympify(li_num/li_den)) #Ajout du li calculé en simplifiant son expression formellement par la fonction sympify
+def li_Lagrange(points_x, points_y):
+    li = []  #Définition d'une liste qui contiendra tous les polynômes "li" de Lagrange
+    Polynome_Interpolé = [] #Définition d'une variable qui contiendra les valeurs évalués en points_x[i] du polynome interpolé
+    X = np.linspace(-1, 1, 300) #Définition d'un axe des abscisses 
+    Y = [5*x**4 + x**2 + 7 for x in X] #Définition d'un axe des ordonnées
+    for x in X: 
+        P_évalué = 0 #Valeur du polynome interpolé évalué 
+        for j in range(len(points_x)):
+            li = 1
+            for i in range(len(points_x)):
+                if i != j:
+                    li *= (x - points_x[i]) / (points_x[j] - points_x[i])
+            P_évalué += points_y[j] * li
+        Polynome_Interpolé.append(P_évalué)
     
-    #Boucle servant à calculer le polyome interpolé 
-    for k in range(len(points_y)):
-        Polynome_Interpolé += sympify(li[k]*points_y[k])
-    print(sympify(expand(Polynome_Interpolé)))
-    #Affichage du polynôme interpolé et du polynôme choisit
-    plot((Polynome_Interpolé, (x, min(points_x)-1, max(points_x)+1), "Polynome de lagrange"), 
-        (pol_choisit, (x, min(points_x)-1, max(points_x)+1), "Fonction choisie" ), legend=True)
-    return sympify(expand(Polynome_Interpolé)) #Retourner l'expression simplifier (sympify) et développée (expand) du polynôme interpolé 
-
-#Affichage du polynômé interpolé 
-print("le résultat est ", Poly_Lagrange(points_x, points_y))
+    return Polynome_Interpolé, Y, X
+    
+def affichage(points_x, points_y):
+    resultat = li_Lagrange(points_x, points_y)
+    plt.plot(resultat[2], resultat[1], label="fonction choisie")
+    plt.plot(resultat[2], resultat[0], label="Polynome interpolé")
+    plt.title(f"Polynomé interpolé et polynôme choisit, pour n = {n}")
+    plt.legend()
+    plt.show()
+    
+affichage(points_x, points_y)
