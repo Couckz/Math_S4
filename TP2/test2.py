@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #Définition d'un n
-n = 4
+n = 100
 b = [1 for i in range(n)] #Definition du b, vecteur 1xn comme demandé dans le tp
 
 #Fonction qui gère le calcul de la matrice tridiagonale
 def tridiag(n):
-    diagonale = randint(0, 10)
+    diagonale = randint(50, 100)
     matrice = []
     for i in range(n):
         ligne = [0]*n 
@@ -42,9 +42,9 @@ print("Durée résolutoin par LU :", temps_LU)
 #Fonction qui trace le log du temps d'execution en fonction du log de n
 def temps_calcul(n):
     n_valeur = [i for i in range(0,n+1)]
-    log_tempscalcul_cholesky= []
-    log_tempscalcul_LU= []
-    log_n = []
+    tempscalcul_cholesky= []
+    tempscalcul_LU= []
+    liste_n = []
     for n in n_valeur:
         matrice = tridiag(n)
         
@@ -59,12 +59,13 @@ def temps_calcul(n):
         t4 = time.time()
         temps_LU = t4 - t3
         
-        log_tempscalcul_cholesky.append(np.log10(temps_cholesky))
-        log_tempscalcul_LU.append(np.log10(temps_LU))
-        log_n.append(np.log10(n))
-
-    plt.plot(log_n, log_tempscalcul_cholesky, label="Temps de calcul pour Cholesky")
-    plt.plot(log_n, log_tempscalcul_LU, label="Temps de calcul pour LU")
+        tempscalcul_cholesky.append(temps_cholesky)
+        tempscalcul_LU.append(temps_LU)
+        liste_n.append(n)
+        
+    plt.title("Temps de calcul en fonction de n, pour n = 100")
+    plt.plot(liste_n, tempscalcul_cholesky, label="Temps de calcul pour Cholesky")
+    plt.plot(liste_n, tempscalcul_LU, label="Temps de calcul pour LU")
     plt.legend()
     plt.show()
     

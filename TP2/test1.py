@@ -33,7 +33,7 @@ def resCholesky(A,b):
         for k in range(i):
             s += resultat[i][k] * y[k]
         y[i] = (b[i] - s) / resultat[i][i]
-    #Remonté
+    #Remontée
     for i in range(n-1, -1, -1):
         s = 0
         for k in range(i+1, n):
