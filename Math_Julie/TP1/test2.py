@@ -29,12 +29,13 @@ def affichage(points_x, points_y):
     plt.title(f"Polynomé interpolé et polynôme choisit, pour n = {n}")
     plt.legend()
     plt.show()
-    
+
+#Fonction qui gère le calcul de l'erreur
 def erreur(n):
-    n_values = [i for i in range(2,n+1)]
+    n_valeur = [i for i in range(2,n+1)]
     log_erreur = []
     log_n = []
-    for n in n_values:
+    for n in n_valeur:
         points_x = np.linspace(-1,1,n) 
         points_y = [1/(1+25*i**2) for i in points_x]
         resultat = li_Lagrange(points_x, points_y)
