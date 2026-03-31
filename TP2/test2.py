@@ -70,3 +70,28 @@ def temps_calcul(n):
     plt.show()
     
 temps_calcul(n)
+
+#pour calculer l'erreur on teste si Ax-b = 0. On a besoin de réaliser un produit matriciel
+def erreur(n):
+    log_erreur_cholesky = []
+    log_erreur_LU = []
+    log_n = []
+    n_valeur = [i for i in range(2,n+1)]
+    #On fait varier n et on calcule le polynôme interpolé pour chaque n, et on garde le log de l'erreur correspondant à chaque n en mémoire
+    for n in n_valeur:
+        b = np.array([1 for i in range(n)])
+        matrice_tridiagonale = np.array(tridiag(n))
+        solution_cholesky = np.array(test1.resCholesky(matrice_tridiagonale, b))
+        solution_LU = np.array(test1.resLU(matrice_tridiagonale, b))
+        erreur_cholesky = np.max(np.abs(np.dot(matrice_tridiagonale, solution_cholesky) - b))
+        erreur_LU = np.max(np.abs(np.dot(matrice_tridiagonale, solution_LU) - b))
+        log_erreur_cholesky.append(np.log10(np.abs(erreur_cholesky)))
+        log_erreur_LU.append(np.log10(np.abs(erreur_LU)))
+        log_n.append(np.log10(n))
+    plt.plot(log_n, log_erreur_cholesky, label="Log de l'erreur de cholesky en fonction du log de n")
+    plt.plot(log_n, log_erreur_LU, label="Log de l'erreur LU en fonction du log de n")
+    plt.legend()
+    plt.title(f"Logarithme de l'erreur en fonction du logarithme de n, pour n = {n} ")
+    plt.show()
+
+erreur(10)
