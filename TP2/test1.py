@@ -43,7 +43,7 @@ def resCholesky(A,b):
 
 print(resCholesky(A,b))
 
-
+#Calcul de la decomposition de LU
 def decompLU(A):
     L = [[0 for i in range(len(A))] for k in range(len(A))]
     U = [[0 for j in range(len(A))] for l in range(len(A))]
@@ -68,6 +68,7 @@ def decompLU(A):
 A = [[10,-1,2,0],[-1,11,-1,3],[2,-1,10,-3], [0,3,-1,8]]
 b = [6,25,-11,15]
 
+#Resolution par la méthode LU
 def resLU(A,b):
     resultat = decompLU(A)
     L = resultat[0]
@@ -78,7 +79,7 @@ def resLU(A,b):
         s = 0
         for k in range(i):
             s += L[i][k] * solution[k]
-        solution[i] = b[i] - s   # car L[i][i] = 1
+        solution[i] = b[i] - s
     # remontée
     for i in range(len(A)-1, -1, -1):
         s = 0

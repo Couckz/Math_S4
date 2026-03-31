@@ -18,12 +18,10 @@ def tcheby_points(a, b, n):
     return points_tchebychev
 
 
-
 # Définition de trois points dont les coordonnées (x,y) sont respectivement les valeurs de points_x et points_y
 # On choisit pour l'études des points par lesquels passent la fonction choisie. Les abscisses sont respectivement les points de Tchebychev
 points_x = tcheby_points(a, b, n)
 points_y = [1/(1+25*i**2) for i in points_x]
-
 
 def li_Lagrange(points_x, points_y):
     li = []  #Définition d'une liste qui contiendra tous les polynômes "li" de Lagrange
@@ -39,9 +37,10 @@ def li_Lagrange(points_x, points_y):
                     li *= (x - points_x[i]) / (points_x[j] - points_x[i])
             P_évalué += points_y[j] * li
         Polynome_Interpolé.append(P_évalué)
-    
+    #Retourne le polynome interpolé, l'axe des ordonnées et l'axe des abscisses de telle sorte à éviter le redondance de code dans la fonction affichage
     return Polynome_Interpolé, Y, X
     
+#Fonction qui gère l'affichage
 def affichage(points_x, points_y):
     resultat = li_Lagrange(points_x, points_y)
     plt.plot(resultat[2], resultat[1], label="fonction choisie")
@@ -49,12 +48,14 @@ def affichage(points_x, points_y):
     plt.title(f"Fonction choisie et polynome interpolé avec tchebychev pour n = {n}")
     plt.legend()
     plt.show()
-    
+
+#Fonction qui gère le calcul de l'erreur et le traçage des courbes correpsondantes
 def erreur(n):
-    n_values = [i for i in range(2,n+1)]
+    n_valeur = [i for i in range(2,n+1)]
     log_erreur = []
     log_n = []
-    for n in n_values:
+    #On fait varier n et on calcule le polynôme interpolé pour chaque n, et on garde le log de l'erreur correspondant à chaque n en mémoire
+    for n in n_valeur:
         points_x = tcheby_points(a, b, n)
         points_y = [1/(1+25*i**2) for i in points_x]
         resultat = li_Lagrange(points_x, points_y)

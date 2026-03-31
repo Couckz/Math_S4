@@ -23,6 +23,7 @@ def li_Lagrange(points_x, points_y):
         
         Polynome_Interpolé.append(P_évalué) #Ajout de P(x) évalué en x à la liste contenant les images du polynome interpolé
     
+    #Retourne le polynome interpolé, l'axe des ordonnées et l'axe des abscisses de telle sorte à éviter le redondance de code dans la fonction affichage
     return Polynome_Interpolé, Y, X
     
 #Fonction qui gère l'affichage des courbes

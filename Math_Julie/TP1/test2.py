@@ -1,15 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-n = 20
-points_x = np.linspace(-1,1,n) 
+
+
+n = 20 #Définition d'un nombre de point n
+points_x = np.linspace(-1,1,n)  #Définition d'un nombre équidistants de points n dans l'interval -1,1
 points_y = [1/(1+25*i**2) for i in points_x]
     
 def li_Lagrange(points_x, points_y):
     li = []  #Définition d'une liste qui contiendra tous les polynômes "li" de Lagrange
     Polynome_Interpolé = [] #Définition d'une variable qui contiendra le polynôme interpolé
-    X = np.linspace(-1, 1, 300)
-    Y = [1/(1+25*x**2) for x in X]
+    X = np.linspace(-1, 1, 300) #Definition d'un axe des abscisses
+    Y = [1/(1+25*x**2) for x in X] #Definition d'un axe des ordonnées
+    #Evaluation du polnyome interpollé en tous les X de l'axe des abscisses
     for x in X: 
         P_évalué = 0
         for j in range(len(points_x)):
@@ -20,8 +23,10 @@ def li_Lagrange(points_x, points_y):
             P_évalué += points_y[j] * li
         Polynome_Interpolé.append(P_évalué)
     
+    #Retourne le polynome interpolé, l'axe des ordonnées et l'axe des abscisses de telle sorte à éviter le redondance de code dans la fonction affichage
     return Polynome_Interpolé, Y, X
-    
+
+#Fonction qui gère l'affichage
 def affichage(points_x, points_y):
     resultat = li_Lagrange(points_x, points_y)
     plt.plot(resultat[2], resultat[1], label="fonction choisie")
